@@ -65,3 +65,27 @@ spring.data.elasticsearch.repositories.enabled=true
 `repositories.enabled=true` allows Spring Data to discover Elasticsearch repositories automatically.
 
 With this configuration, your Spring Boot application should connect to Elasticsearch without requiring any further changes.
+
+## Bulk Indexing Sample Data
+When the Spring Boot application starts, it automatically reads the sample-courses.json file (located in src/main/resources) and indexes all course documents into the courses index in Elasticsearch.
+
+### How it works
+- The CourseDataLoader class is a startup listener (@Component) that runs on application startup.
+
+- It uses Jackson's ObjectMapper to parse sample-courses.json into a list of CourseDocument objects.
+
+- The parsed documents are then saved into Elasticsearch using CourseRepository.
+
+### To Trigger Ingestion
+You don’t need to do anything manually. Just run the application, and the ingestion will happen automatically.
+
+If successful, your console/log will show:
+``Courses indexed successfully into Elasticsearch``
+
+### To Verify It Worked
+You can use curl or Postman to verify that the data is indexed.
+
+```bash
+curl "http://localhost:9200/courses/_search?size=50&pretty"
+```
+You should see a JSON response containing the indexed courses.
