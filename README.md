@@ -1,3 +1,5 @@
+# Course Search Application with Spring Boot and Elasticsearch
+
 ## Elasticsearch Setup (Quick Start)
 
 This guide helps you set up Elasticsearch locally using Docker Compose.
@@ -50,3 +52,16 @@ When done, stop it with:
 docker-compose down
 ```
 
+## Application Configuration
+To connect your Spring Boot application with the locally running Elasticsearch instance, add the following properties to your `src/main/resources/application.properties` file:
+
+```properties
+spring.data.elasticsearch.client.reactive.endpoints=localhost:9200
+spring.data.elasticsearch.repositories.enabled=true
+```
+
+### Explanation
+`endpoints=localhost:9200` tells the application where Elasticsearch is running.
+`repositories.enabled=true` allows Spring Data to discover Elasticsearch repositories automatically.
+
+With this configuration, your Spring Boot application should connect to Elasticsearch without requiring any further changes.
